@@ -6,7 +6,7 @@
     <title>Park Data List</title>
     <script>
         async function fetchParkData() {
-            const response = await fetch('/park/');
+            const response = await fetch('http://3.38.116.118:5000/park/');
             const parkData = await response.json();
             const parkList = document.getElementById('parkList');
             parkList.innerHTML = '';
