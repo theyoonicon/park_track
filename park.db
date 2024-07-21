@@ -1,0 +1,6 @@
+CREATE TABLE park_data (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time TEXT NOT NULL,
+    event TEXT NOT NULL,
+    type TEXT NOT NULL
+);

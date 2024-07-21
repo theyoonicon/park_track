@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Park Data List</title>
+    <script>
+        async function fetchParkData() {
+            const response = await fetch('/park/');
+            const parkData = await response.json();
+            const parkList = document.getElementById('parkList');
+            parkList.innerHTML = '';
+
+            parkData.forEach(data => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${data.time} - ${data.event} (${data.type})`;
+                parkList.appendChild(listItem);
+            });
+        }
+
+        window.onload = fetchParkData;
+    </script>
+</head>
+<body>
+    <h1>Park Data List</h1>
+    <ul id="parkList"></ul>
+</body>
+</html>
