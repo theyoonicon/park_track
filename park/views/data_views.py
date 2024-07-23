@@ -6,7 +6,7 @@ bp = Blueprint('data', __name__, url_prefix='/data')
 
 @bp.route('/', methods=['GET'])
 def check_data():
-    parkdata_list = ParkData.query.order_by(ParkData.time.asc())
+    data_list = ParkData.query.all()
     
     """
     park_data = ParkData.query.all()
@@ -21,7 +21,7 @@ def check_data():
     return jsonify(result)
     """
     
-    return render_template('data_show.html', data_list=parkdata_list)
+    return render_template('data_show.html', data_list=data_list)
 
 @bp.route('/', methods=['POST'])
 def add_park_data():
