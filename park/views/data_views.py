@@ -26,6 +26,7 @@ def check_data():
 @bp.route('/', methods=['POST'])
 def add_park_data():
     new_data = request.get_json()
+    print(new_data)
     park_data = ParkData(
         time=new_data['time'],
         event=new_data['event'],
