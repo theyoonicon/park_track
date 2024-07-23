@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if data_list %}
+<ul>
+    {% for data in data_list %}
+        <li> {{data.symptom}} </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}

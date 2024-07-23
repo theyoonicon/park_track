@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from .models import ParkData
+# from .models import ParkData
 from . import db
 
 park_bp = Blueprint('park', __name__)

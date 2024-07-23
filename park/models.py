@@ -1,4 +1,4 @@
-from . import db
+from park import db
 
 class ParkData(db.Model):
     id = db.Column(db.Integer, primary_key=True)

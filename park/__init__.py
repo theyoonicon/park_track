@@ -1,21 +1,35 @@
 from flask import Flask
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
+
+import config
+
 db = SQLAlchemy()
+migrate = Migrate()
+
+
+from . import models
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///park.db'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['DEBUG'] = True
-
+    app.config.from_object(config)
+    
+    # ORM
     db.init_app(app)
+    migrate.init_app(app, db)
 
-    from .routes import park_bp
-    app.register_blueprint(park_bp, url_prefix='/park')
+
+    # blueprint
+    from .views import main_views, data_views
+    app.register_blueprint(main_views.bp)
+    app.register_blueprint(data_views.bp)
 
     return app
 
-if __name__ == '__main__':
+def main():
     app = create_app()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
+
+if __name__ == "__main__":
+    main()
