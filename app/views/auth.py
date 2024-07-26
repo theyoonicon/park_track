@@ -38,7 +38,11 @@ def login():
             if user and bcrypt.check_password_hash(user.password, password):
                 access_token = create_access_token(identity=user.id)
                 if request.headers.get('Accept') == 'application/json':
-                    return jsonify({"message": "Login successful", "token": access_token}), 200
+                    return jsonify({
+                        "message": "Login successful", 
+                        "token": access_token,
+                        "user_id": user.id  # 추가: user_id 반환
+                    }), 200
                 else:
                     response = make_response(redirect(url_for('symptoms.get_symptoms', username=username)))
                     response.set_cookie('access_token', access_token, httponly=True)

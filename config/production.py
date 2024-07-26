@@ -1,5 +1,3 @@
-# 서버 환경을 담당할 파일
-
 from config.default import Config
 import os
 
