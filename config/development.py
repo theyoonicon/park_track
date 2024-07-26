@@ -1,11 +1,11 @@
-# 개발 환경을 담당할 파일
+from config.default import Config
+import os
 
-from config.default import *
+basedir = os.path.abspath(os.path.dirname(__file__))
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:///{}'.format(os.path.join(BASE_DIR, 'park.db'))
-SQLALCHEMY_TRACK_MODIFICATIONS = False
-SECRET_KEY = "dev"
-
+class DevelopmentConfig(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db.sqlite')
 
 # SQLALCHEMY_DATABASE_URI는 데이터베이스 접속 주소
 # SQLALCHEMY_TRACK_MODIFICATIONS는 SQLAlchemy의 이벤트를 처리하는 옵션
