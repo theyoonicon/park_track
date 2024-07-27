@@ -34,6 +34,10 @@ def get_or_add_symptoms(username):
                 return symptom_schema.jsonify(new_symptom), 201
             else:
                 symptoms = Symptom.query.filter_by(username=username).all()
+                date_filter = request.args.get('date_filter')
+                if date_filter:
+                    symptoms = symptoms.filter(Symptom.time.like(f'%{date_filter}%'))
+                symptoms = symptoms.all()
                 if request.headers.get('Accept') == 'application/json':
                     return symptoms_schema.jsonify(symptoms), 200
                 return render_template('symptoms.html', symptoms=symptoms)
