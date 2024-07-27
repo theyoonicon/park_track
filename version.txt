@@ -1,0 +1,9 @@
+# version 1.0.0
+# ● 1. 환자 및 의사가 mobile, app에 login을 한다.
+# ●   1. 환자는 본인의 data 밖에 볼 수 없다.
+# ○   2. 의사는 본인에게 연결된 환자의 data를 볼 수 있다. -> 안됨
+# ● 2. 환자가 Mobile app을 통하여 증상(symptom)과 약 복용 여부(medication)를 기록(data)한다.
+# ● 3. Data를 mobile app에서 web으로 전송한다.
+# ●   1. 환자의 mobile app에 data는 기록된다.
+# ●   2. 기록된 data를 환자가 수정 혹은 삭제할 수 있다.
+# ○   3. 기록된 data는 날짜 별로 조회할 수 있다.

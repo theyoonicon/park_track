@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptoms</title>
+</head>
+<body>
+    <h2>Symptoms List</h2>
+    <ul>
+        {% for symptom in symptoms %}
+            <li>{{ symptom.time }} - {{ symptom.event }} ({{ symptom.type }})</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
