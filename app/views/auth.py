@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for, make_response
+from flask import Blueprint, flash, request, jsonify, render_template, redirect, url_for, make_response
 from ..models import User
 from .. import db, bcrypt
 from flask_jwt_extended import JWTManager, create_access_token, decode_token, jwt_required, get_jwt_identity
@@ -14,14 +14,18 @@ def register():
         username = data.get('username')
         password = data.get('password')
         if not username or not password:
-            return jsonify({"message": "Missing username or password"}), 400
+            flash("Missing username or password")
+            return render_template('register.html')
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
-            return jsonify({"message": "User already exists"}), 400
+            flash("User already exists")
+            return render_template('register.html')
+            # return jsonify({"message": "User already exists"}), 400
         new_user = User(username=username, password=bcrypt.generate_password_hash(password).decode('utf-8'))
         db.session.add(new_user)
         db.session.commit()
-        return jsonify({"message": "User registered successfully"}), 201
+        flash("User registered successfully")
+        return redirect(url_for('auth.login'))
     else:
         return render_template('register.html')
 
@@ -63,9 +67,8 @@ def get_jwt_identity_from_request():
     except Exception as e:
         return None
 
-@auth_bp.route('/logout', methods=['POST'])
-@jwt_required()
+@auth_bp.route('/logout', methods=['GET'])
 def logout():
-    response = make_response(redirect(url_for('auth.login')))
+    response = make_response(jsonify({"message": "Logged out successfully"}), 200)
     response.delete_cookie('access_token')
-    return response
+    return redirect(url_for('auth.login'))

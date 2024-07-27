@@ -13,6 +13,7 @@ jwt = JWTManager()
 def create_app():
     app = Flask(__name__)
     config_name = os.getenv('FLASK_CONFIG', 'default')
+    print(config_name)
     if config_name == 'development':
         app.config.from_object('config.development.DevelopmentConfig')
     elif config_name == 'production':
