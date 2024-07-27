@@ -26,7 +26,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         if request.headers.get('Accept') == 'application/json':
-            return jsonify({"message": "Register successful"}), 200
+            return jsonify({"message": "Register successful"}), 201
         flash("User registered successfully")
         return redirect(url_for('auth.login'))
     else:
