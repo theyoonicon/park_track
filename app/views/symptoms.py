@@ -33,7 +33,7 @@ def get_or_add_symptoms(username):
                 db.session.commit()
                 return symptom_schema.jsonify(new_symptom), 201
             else:
-                symptoms = Symptom.query.filter_by(username=username).all()
+                symptoms = Symptom.query.filter_by(username=username)
                 date_filter = request.args.get('date_filter')
                 if date_filter:
                     symptoms = symptoms.filter(Symptom.time.like(f'%{date_filter}%'))
