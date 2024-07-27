@@ -13,6 +13,7 @@ def register():
             data = request.form
         username = data.get('username')
         password = data.get('password')
+        print("username:", username, "password", password)
         if not username or not password:
             flash("Missing username or password")
             return render_template('register.html')
