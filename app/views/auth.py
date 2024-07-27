@@ -24,6 +24,8 @@ def register():
         new_user = User(username=username, password=bcrypt.generate_password_hash(password).decode('utf-8'))
         db.session.add(new_user)
         db.session.commit()
+        if request.headers.get('Accept') == 'application/json':
+            return jsonify({"message": "Register successful"}), 200
         flash("User registered successfully")
         return redirect(url_for('auth.login'))
     else:
