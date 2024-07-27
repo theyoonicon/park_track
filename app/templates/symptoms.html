@@ -17,5 +17,8 @@
             <li>{{ symptom.time }} - {{ symptom.event }} ({{ symptom.type }})</li>
         {% endfor %}
     </ul>
+    <form method="post" action="{{ url_for('auth.logout') }}">
+        <button type="submit">Logout</button>
+    </form>
 </body>
 </html>

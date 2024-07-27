@@ -62,3 +62,10 @@ def get_jwt_identity_from_request():
         return decoded_token['sub']
     except Exception as e:
         return None
+
+@auth_bp.route('/logout', methods=['POST'])
+@jwt_required()
+def logout():
+    response = make_response(redirect(url_for('auth.login')))
+    response.delete_cookie('access_token')
+    return response
