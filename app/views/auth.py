@@ -1,8 +1,8 @@
-from flask import Blueprint, flash, request, jsonify, render_template, redirect, url_for, make_response
+from flask import Blueprint, flash, request, jsonify, render_template, redirect, url_for, make_response, session
 from ..models import User
 from .. import db, bcrypt
-from flask_jwt_extended import JWTManager, create_access_token, decode_token, jwt_required, get_jwt_identity
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_jwt_extended import JWTManager, create_access_token, decode_token, jwt_required, get_jwt_identity, get_jwt
+import functools
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -35,7 +35,7 @@ def register():
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    # 로그인 유지 수정
+    print(session)
     try:
         if request.method == 'POST':
             data = request.get_json(silent=True)
@@ -72,10 +72,9 @@ def get_jwt_identity_from_request():
     except Exception as e:
         return None
 
-
-@auth_bp.route('/logout', methods=['GET', 'POST'])
-@jwt_required()
+@auth_bp.route('/logout', methods=['POST'])
 def logout():
     response = make_response(redirect(url_for('auth.login')))
     response.delete_cookie('access_token')
+    flash("You have been logged out")
     return response

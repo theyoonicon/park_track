@@ -119,5 +119,3 @@ def choose_action(username):
     if user and user.username == username:
         return render_template('home.html', username=username)
     return jsonify({"message": "Unauthorized access"}), 401
-
-

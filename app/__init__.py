@@ -2,7 +2,7 @@ from flask import Flask, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager, get_jti, get_jwt, jwt_required
 import os
 from flask_login import current_user, LoginManager
 
@@ -10,6 +10,7 @@ db = SQLAlchemy()
 ma = Marshmallow()
 bcrypt = Bcrypt()
 jwt = JWTManager()
+
 
 def create_app():
     app = Flask(__name__)
@@ -36,7 +37,8 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(symptoms_bp)
     app.register_blueprint(home_bp)
-    
+
+
     with app.app_context():
         db.create_all()  # 데이터베이스 테이블 생성
 
