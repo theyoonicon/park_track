@@ -19,7 +19,10 @@ symptoms_schema = SymptomSchema(many=True)
 @jwt_required(optional=True)
 def get_or_add_symptoms():
     try:
-        user_id = session.get('user_id')
+        if request.headers.get('Accept') == 'application/json':
+            user_id=get_jwt_identity_from_request()
+        else:
+            user_id = session.get('user_id')
         if not user_id:
             return jsonify({"message": "Unauthorized access"}), 401
         user = User.query.get(user_id)
