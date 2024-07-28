@@ -4,51 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Symptoms</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <style>
-        .data {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .data th, .data td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        .data th {
-            background-color: #f2f2f2;
-            text-align: left;
-        }
-    </style>
+    <link rel="stylesheet" href="https://unpkg.com/@shadcn/ui@latest/dist/shad.min.css">
+    <script src="https://unpkg.com/@shadcn/ui@latest/dist/shad.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <h2>Symptoms List</h2>
-        <form method="get" action="">
-            <label for="date_filter">Filter by Date:</label>
-            <input type="date" id="date_filter" name="date_filter">
-            <button type="submit" class="btn btn-primary">Filter</button>
+<body class="bg-white flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full">
+        <h2 class="text-2xl font-bold mb-6">Symptoms List</h2>
+        <form method="get" action="" class="mb-6">
+            <div class="flex space-x-4 items-end">
+                <div class="flex-1">
+                    <label for="date_filter" class="block text-gray-700">Filter by Date:</label>
+                    <input type="date" id="date_filter" name="date_filter" class="w-full p-2 border border-gray-300 rounded mt-1">
+                </div>
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Filter</button>
+            </div>
         </form>
-        <ul>
+        <ul class="list-disc pl-5 mb-6">
             {% for symptom in symptoms %}
                 <li>{{ symptom.time }} - {{ symptom.event }} ({{ symptom.type }})</li>
             {% endfor %}
         </ul>
-        <h2>Graph</h2>
-        <div>
+        <h2 class="text-2xl font-bold mb-6">Graph</h2>
+        <div class="ui segment overflow-auto">
             {% if graph_html %}
                 {{ graph_html | safe }}
             {% else %}
                 <p>No data available.</p>
             {% endif %}
         </div>
-        <h2>DataFrame</h2>
-        {% if tables %}
-            {% for table in tables %}
-                <div>{{ table|safe }}</div>
-            {% endfor %}
-        {% else %}
-            <p>No data available.</p>
-        {% endif %}
+        <h2 class="text-2xl font-bold mb-6">DataFrame</h2>
+        <div class="ui segment overflow-auto">
+            {% if tables %}
+                {% for table in tables %}
+                    <div>{{ table|safe }}</div>
+                {% endfor %}
+            {% else %}
+                <p>No data available.</p>
+            {% endif %}
+        </div>
     </div>
 </body>
 </html>

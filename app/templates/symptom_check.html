@@ -4,29 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Symptom Check</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@shadcn/ui@latest/dist/shad.min.css">
+    <script src="https://unpkg.com/@shadcn/ui@latest/dist/shad.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <h2>Symptom Check</h2>
+<body class="bg-white flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-bold mb-6">Symptom Check</h2>
         <form method="post" action="{{ url_for('symptoms.symptom_check') }}">
-            <div class="form-group">
-                <label for="event">Event</label>
-                <select class="form-control" id="event" name="event" required>
-                    <option value="좋아요">좋아요</option>
-                    <option value="보통이에요">보통이에요</option>
-                    <option value="나빠요">나빠요</option>
-                    <option value="약 섭취">약 섭취</option>
-                </select>
+            <div class="mb-4">
+                <label for="event" class="block text-gray-700">Event</label>
+                <div class="relative">
+                    <select id="event" name="event" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
+                        <option value="좋아요">좋아요</option>
+                        <option value="보통이에요">보통이에요</option>
+                        <option value="나빠요">나빠요</option>
+                        <option value="약 섭취">약 섭취</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="type">Type</label>
-                <select class="form-control" id="type" name="type" required>
-                    <option value="symptom">Symptom</option>
-                    <option value="medication">Medication</option>
-                </select>
+            <div class="mb-4">
+                <label for="type" class="block text-gray-700">Type</label>
+                <div class="relative">
+                    <select id="type" name="type" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" required>
+                        <option value="symptom">Symptom</option>
+                        <option value="medication">Medication</option>
+                    </select>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-700">Submit</button>
         </form>
     </div>
 </body>

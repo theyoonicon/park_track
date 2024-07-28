@@ -77,7 +77,7 @@ def logout():
         print("come")
         # response = make_response(jsonify({"message": "Logged out successfully"}), 200)
         # response.delete_cookie('access_token')
-        return jsonify({"message": "Logged out"}), 200
+        return jsonify({"message": "log-out"}), 200
     session.clear()
     response = redirect(url_for('auth.login'))
     unset_jwt_cookies(response)
