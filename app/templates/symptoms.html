@@ -4,21 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Symptoms</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .data {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .data th, .data td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .data th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
-    <h2>Symptoms List</h2>
-    <form method="get" action="">
-        <label for="date_filter">Filter by Date:</label>
-        <input type="date" id="date_filter" name="date_filter">
-        <button type="submit">Filter</button>
-    </form>
-    <ul>
-        {% for symptom in symptoms %}
-            <li>{{ symptom.time }} - {{ symptom.event }} ({{ symptom.type }})</li>
-        {% endfor %}
-    </ul>
-    <form method="get" action="{{ url_for('auth.logout') }}">
-        <button type="submit">Logout</button>
-    </form>
+    <div class="container">
+        <h2>Symptoms List</h2>
+        <form method="get" action="">
+            <label for="date_filter">Filter by Date:</label>
+            <input type="date" id="date_filter" name="date_filter">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+        <ul>
+            {% for symptom in symptoms %}
+                <li>{{ symptom.time }} - {{ symptom.event }} ({{ symptom.type }})</li>
+            {% endfor %}
+        </ul>
+        <h2>Graph</h2>
+        <div>
+            {% if graph_html %}
+                {{ graph_html | safe }}
+            {% else %}
+                <p>No data available.</p>
+            {% endif %}
+        </div>
+        <h2>DataFrame</h2>
+        {% if tables %}
+            {% for table in tables %}
+                <div>{{ table|safe }}</div>
+            {% endfor %}
+        {% else %}
+            <p>No data available.</p>
+        {% endif %}
+    </div>
 </body>
 </html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom Check</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Symptom Check</h2>
+        <form method="post" action="{{ url_for('symptoms.symptom_check', username=username) }}">
+            <div class="form-group">
+                <label for="event">Event</label>
+                <select class="form-control" id="event" name="event" required>
+                    <option value="좋아요">좋아요</option>
+                    <option value="보통이에요">보통이에요</option>
+                    <option value="나빠요">나빠요</option>
+                    <option value="약 섭취">약 섭취</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select class="form-control" id="type" name="type" required>
+                    <option value="symptom">Symptom</option>
+                    <option value="medication">Medication</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
