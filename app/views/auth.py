@@ -49,7 +49,7 @@ def login():
                 if request.headers.get('Accept') == 'application/json':
                     return jsonify({"message": "Login successful", "token": access_token}), 200
                 else:
-                    response = make_response(redirect(url_for('symptoms.choose_action', username=username)))
+                    response = make_response(redirect(url_for('home.home', username=username)))
                     response.set_cookie('access_token', access_token, httponly=True)
                     return response
             return jsonify({"message": "Invalid credentials"}), 401
