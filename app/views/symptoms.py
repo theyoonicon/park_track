@@ -55,7 +55,10 @@ def get_or_add_symptoms():
 @jwt_required()
 def update_symptom(id):
     try:
-        user_id = session.get('user_id')
+        if request.headers.get('Accept') == 'application/json':
+            user_id=get_jwt_identity_from_request()
+        else:
+            user_id = session.get('user_id')
         if not user_id:
             return jsonify({"message": "Unauthorized access"}), 401
         user = User.query.get(user_id)
@@ -75,7 +78,10 @@ def update_symptom(id):
 @jwt_required()
 def delete_symptom(id):
     try:
-        user_id = session.get('user_id')
+        if request.headers.get('Accept') == 'application/json':
+            user_id=get_jwt_identity_from_request()
+        else:
+            user_id = session.get('user_id')
         if not user_id:
             return jsonify({"message": "Unauthorized access"}), 401
         user = User.query.get(user_id)
@@ -92,7 +98,10 @@ def delete_symptom(id):
 @symptoms_bp.route('/symptom_check', methods=['GET', 'POST'])
 @jwt_required(optional=True)
 def symptom_check():
-    user_id = session.get('user_id')
+    if request.headers.get('Accept') == 'application/json':
+        user_id=get_jwt_identity_from_request()
+    else:
+        user_id = session.get('user_id')
     if not user_id:
         return jsonify({"message": "Unauthorized access"}), 401
     user = User.query.get(user_id)
