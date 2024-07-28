@@ -75,9 +75,9 @@ def get_jwt_identity_from_request():
 def logout():
     if request.headers.get('Accept') == 'application/json':
         print("come")
-        response = make_response(jsonify({"message": "Logged out successfully"}), 200)
-        response.delete_cookie('access_token')
-        return response
+        # response = make_response(jsonify({"message": "Logged out successfully"}), 200)
+        # response.delete_cookie('access_token')
+        return response, 200
     session.clear()
     response = redirect(url_for('auth.login'))
     unset_jwt_cookies(response)
