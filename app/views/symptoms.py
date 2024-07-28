@@ -27,8 +27,9 @@ def get_or_add_symptoms():
             return jsonify({"message": "Unauthorized access"}), 401
         user = User.query.get(user_id)
         if user:
+            print(user)
             if request.method == 'POST':
-                print("post")
+
                 data = request.get_json(force=True)
                 time = data.get('time')
                 event = data.get('event')
