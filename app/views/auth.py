@@ -45,6 +45,8 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and bcrypt.check_password_hash(user.password, password):
             access_token = create_access_token(identity=user.id)
+            if request.headers.get('Accept') == 'application/json':
+                    return jsonify({"message": "Login successful", "token": access_token}), 200
             response = make_response(redirect(url_for('home.home')))
             set_access_cookies(response, access_token)
             session['logged_in'] = True
