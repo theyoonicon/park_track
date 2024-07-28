@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h2>Symptom Check</h2>
-        <form method="post" action="{{ url_for('symptoms.symptom_check', username=username) }}">
+        <form method="post" action="{{ url_for('symptoms.symptom_check') }}">
             <div class="form-group">
                 <label for="event">Event</label>
                 <select class="form-control" id="event" name="event" required>

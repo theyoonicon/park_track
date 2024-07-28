@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, request, jsonify, render_template, redirect, url_for, make_response, session
 from ..models import User
 from .. import db, bcrypt
-from flask_jwt_extended import JWTManager, create_access_token, decode_token, jwt_required, get_jwt_identity, get_jwt
+from flask_jwt_extended import JWTManager, set_access_cookies, unset_jwt_cookies, create_access_token, decode_token, jwt_required, get_jwt_identity, get_jwt
 import functools
 
 auth_bp = Blueprint('auth', __name__)
@@ -33,30 +33,27 @@ def register():
     else:
         return render_template('register.html')
 
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    print(session)
-    try:
-        if request.method == 'POST':
-            data = request.get_json(silent=True)
-            if data is None:
-                data = request.form
-            username = data.get('username')
-            password = data.get('password')
-            user = User.query.filter_by(username=username).first()
-            if user and bcrypt.check_password_hash(user.password, password):
-                access_token = create_access_token(identity=user.id)
-                if request.headers.get('Accept') == 'application/json':
-                    return jsonify({"message": "Login successful", "token": access_token}), 200
-                else:
-                    response = make_response(redirect(url_for('home.home', username=username)))
-                    response.set_cookie('access_token', access_token, httponly=True)
-                    return response
-            return jsonify({"message": "Invalid credentials"}), 401
-        else:
-            return render_template('login.html')
-    except Exception as e:
-        return jsonify({"message": "An error occurred", "error": str(e)}), 500
+    if request.method == 'POST':
+        data = request.get_json(silent=True)
+        if data is None:
+            data = request.form
+        username = data.get('username')
+        password = data.get('password')
+        user = User.query.filter_by(username=username).first()
+        if user and bcrypt.check_password_hash(user.password, password):
+            access_token = create_access_token(identity=user.id)
+            response = make_response(redirect(url_for('home.home')))
+            set_access_cookies(response, access_token)
+            session['logged_in'] = True
+            session['user_id'] = user.id
+            return response
+        flash("Invalid credentials")
+        return render_template('login.html')
+    else:
+        return render_template('login.html')
 
 def get_jwt_identity_from_request():
     auth_header = request.headers.get('Authorization')
@@ -74,7 +71,7 @@ def get_jwt_identity_from_request():
 
 @auth_bp.route('/logout', methods=['POST'])
 def logout():
-    response = make_response(redirect(url_for('auth.login')))
-    response.delete_cookie('access_token')
-    flash("You have been logged out")
+    session.clear()
+    response = redirect(url_for('auth.login'))
+    unset_jwt_cookies(response)
     return response

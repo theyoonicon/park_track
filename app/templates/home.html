@@ -10,13 +10,12 @@
     <div class="container">
         <h2>Choose Action</h2>
         <div class="btn-group-vertical">
-            <a href="{{ url_for('symptoms.symptom_check', username=username) }}" class="btn btn-primary btn-lg mb-2">Symptom Check</a>
-            <a href="{{ url_for('symptoms.get_or_add_symptoms', username=username) }}" class="btn btn-secondary btn-lg">Symptom List</a>
+            <a href="{{ url_for('symptoms.symptom_check') }}" class="btn btn-primary btn-lg mb-2">Symptom Check</a>
+            <a href="{{ url_for('symptoms.get_or_add_symptoms') }}" class="btn btn-secondary btn-lg">Symptom List</a> 
             <form action="{{ url_for('auth.logout') }}" method="POST" style="display: inline;">
                 <button type="submit" class="btn btn-secondary btn-lg">Logout</button>
             </form>
         </div>
     </div>
-
 </body>
 </html>
