@@ -28,6 +28,7 @@ def get_or_add_symptoms():
         user = User.query.get(user_id)
         if user:
             if request.method == 'POST':
+                print("post")
                 data = request.get_json(force=True)
                 time = data.get('time')
                 event = data.get('event')
