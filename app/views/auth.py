@@ -31,11 +31,8 @@ def delete_temp_user(email):
 def register():
     form = RegistrationForm()
     if request.method == 'POST':
-        if request.is_json:
-            data = request.get_json()
-            form = RegistrationForm(data=data)
-        else:
-            form = RegistrationForm()
+        data = request.get_json() if request.is_json else request.form
+        form = RegistrationForm(data=data)
         
         if form.validate_on_submit():
             username = form.username.data
