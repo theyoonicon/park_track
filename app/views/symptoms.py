@@ -180,6 +180,7 @@ def update_symptom(id):
         print(user)
         if user:
             symptom = Symptom.query.get(id)
+            print(symptom)
             if symptom and symptom.username == user.username:
                 data = request.form.to_dict()
                 print(data['_method'])
