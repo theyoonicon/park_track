@@ -177,6 +177,7 @@ def update_symptom(id):
             print("not user id?")
             return jsonify({"message": "Unauthorized access"}), 401
         user = User.query.get(user_id)
+        print(user)
         if user:
             symptom = Symptom.query.get(id)
             if symptom and symptom.username == user.username:
