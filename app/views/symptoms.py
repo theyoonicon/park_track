@@ -191,7 +191,7 @@ def update_symptom(id):
                     data = request.form.to_dict()
                     data_method = data['_method']
                 print("data_method", data_method)
-                if data['_method'].upper() == 'PUT':
+                if data_method.upper() == 'PUT':
                     symptom.event = data.get('event', symptom.event)
                     symptom.type = data.get('type', symptom.type)
                     db.session.commit()
@@ -199,7 +199,7 @@ def update_symptom(id):
                         return symptom_schema.jsonify(symptom), 200
                     else:
                         return redirect(url_for('symptoms.get_or_add_symptoms'))
-                elif data['_method'].upper() == 'DELETE':
+                elif data_method.upper() == 'DELETE':
                     db.session.delete(symptom)
                     db.session.commit()
                     if request.headers.get('Accept') == 'application/json':
