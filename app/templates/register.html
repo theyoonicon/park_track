@@ -6,32 +6,31 @@
     {% endif %}
 {% endwith %}
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="https://unpkg.com/@shadcn/ui@latest/dist/shad.min.css">
-    <script src="https://unpkg.com/@shadcn/ui@latest/dist/shad.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/css/uikit.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit-icons.min.js"></script>
 </head>
-<body class="bg-white flex items-center justify-center h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 class="text-2xl font-bold mb-6">Register</h2>
+<body class="uk-flex uk-flex-center uk-flex-middle uk-background-muted uk-height-viewport">
+    <div class="uk-card uk-card-default uk-card-body uk-width-large">
+        <h2 class="uk-card-title">Register</h2>
         <form method="post" action="/register">
-            <div class="mb-4">
-                <label for="username" class="block text-gray-700">Username:</label>
-                <input type="text" id="username" name="username" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+            <div class="uk-margin">
+                <label for="username" class="uk-form-label">Username:</label>
+                <input type="text" id="username" name="username" class="uk-input" required>
             </div>
-            <div class="mb-6">
-                <label for="password" class="block text-gray-700">Password:</label>
-                <input type="password" id="password" name="password" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+            <div class="uk-margin">
+                <label for="password" class="uk-form-label">Password:</label>
+                <input type="password" id="password" name="password" class="uk-input" required>
             </div>
-            <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-700">Register</button>
+            <button type="submit" class="uk-button uk-button-primary uk-width-1-1">Register</button>
         </form>
-        <a href="{{ url_for('auth.login') }}" class="block text-center text-blue-500 mt-4">Login</a>
+        <a href="{{ url_for('auth.login') }}" class="uk-link-muted uk-display-block uk-text-center uk-margin-top">Login</a>
     </div>
 </body>
 </html>

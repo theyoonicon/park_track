@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose Action</title>
-    <link rel="stylesheet" href="https://unpkg.com/@shadcn/ui@latest/dist/shad.min.css">
-    <script src="https://unpkg.com/@shadcn/ui@latest/dist/shad.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/css/uikit.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit-icons.min.js"></script>
 </head>
-<body class="bg-white flex items-center justify-center h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 class="text-2xl font-bold mb-6">Choose Action</h2>
-        <div class="flex flex-col space-y-4">
-            <a href="{{ url_for('symptoms.symptom_check') }}" class="bg-blue-500 text-white py-2 rounded text-center hover:bg-blue-700">Symptom Check</a>
-            <a href="{{ url_for('symptoms.get_or_add_symptoms') }}" class="bg-gray-500 text-white py-2 rounded text-center hover:bg-gray-700">Symptom List</a>
+<body class="uk-flex uk-flex-center uk-flex-middle uk-background-muted uk-height-viewport">
+    <div class="uk-card uk-card-default uk-card-body uk-width-large">
+        <h2 class="uk-card-title">Choose Action</h2>
+        <div class="uk-button-group uk-width-1-1">
+            <a href="{{ url_for('symptoms.symptom_check') }}" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Symptom Check</a>
+            <a href="{{ url_for('symptoms.get_or_add_symptoms') }}" class="uk-button uk-button-secondary uk-width-1-1 uk-margin-small-bottom">Symptom List</a>
             <form action="{{ url_for('auth.logout') }}" method="POST">
-                <button type="submit" class="w-full bg-red-500 text-white py-2 rounded hover:bg-red-700">Logout</button>
+                <button type="submit" class="uk-button uk-button-danger uk-width-1-1">Logout</button>
             </form>
         </div>
     </div>

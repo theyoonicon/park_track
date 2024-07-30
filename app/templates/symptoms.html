@@ -4,40 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Symptoms</title>
-    <link rel="stylesheet" href="https://unpkg.com/@shadcn/ui@latest/dist/shad.min.css">
-    <script src="https://unpkg.com/@shadcn/ui@latest/dist/shad.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/css/uikit.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit-icons.min.js"></script>
 </head>
-<body class="bg-white flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full">
-        <h2 class="text-2xl font-bold mb-6">Symptoms List</h2>
-        <form method="get" action="" class="mb-6">
-            <div class="flex space-x-4 items-end">
-                <div class="flex-1">
-                    <label for="date_filter" class="block text-gray-700">Filter by Date:</label>
-                    <input type="date" id="date_filter" name="date_filter" class="w-full p-2 border border-gray-300 rounded mt-1">
+<body class="uk-background-muted uk-height-viewport">
+    <div class="uk-container uk-margin-top">
+        <h2 class="uk-heading-line"><span>Symptoms List</span></h2>
+        <form method="get" action="" class="uk-form-stacked uk-margin-bottom">
+            <div class="uk-margin">
+                <label for="date_filter" class="uk-form-label">Filter by Date:</label>
+                <div class="uk-form-controls">
+                    <input type="date" id="date_filter" name="date_filter" class="uk-input">
                 </div>
-                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Filter</button>
             </div>
+            <button type="submit" class="uk-button uk-button-primary">Filter</button>
         </form>
-        <ul class="list-disc pl-5 mb-6">
+        <ul class="uk-list uk-list-divider">
             {% for symptom in symptoms %}
                 <li>{{ symptom.time }} - {{ symptom.event }} ({{ symptom.type }})</li>
             {% endfor %}
         </ul>
-        <h2 class="text-2xl font-bold mb-6">Graph</h2>
-        <div class="ui segment overflow-auto">
+        <h2 class="uk-heading-line uk-margin-top"><span>Graph</span></h2>
+        <div class="uk-overflow-auto">
             {% if graph_html %}
                 {{ graph_html | safe }}
             {% else %}
                 <p>No data available.</p>
             {% endif %}
         </div>
-        <h2 class="text-2xl font-bold mb-6">DataFrame</h2>
-        <div class="ui segment overflow-auto">
+        <h2 class="uk-heading-line uk-margin-top"><span>DataFrame</span></h2>
+        <div class="uk-overflow-auto">
             {% if tables %}
                 {% for table in tables %}
-                    <div>{{ table|safe }}</div>
+                    <div class="uk-margin">{{ table|safe }}</div>
                 {% endfor %}
             {% else %}
                 <p>No data available.</p>
