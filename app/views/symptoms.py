@@ -174,6 +174,7 @@ def update_symptom(id):
             user_id = session.get('user_id')
         print(user_id)
         if not user_id:
+            print("not user id?")
             return jsonify({"message": "Unauthorized access"}), 401
         user = User.query.get(user_id)
         if user:
