@@ -6,6 +6,7 @@ import functools
 from datetime import datetime
 from .email import generate_confirmation_token, send_email, confirm_token
 import os, pickle
+from .forms import RegistrationForm
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -28,45 +29,58 @@ def delete_temp_user(email):
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
+    form = RegistrationForm()
     if request.method == 'POST':
-        data = request.get_json(silent=True)
-        if data is None:
-            data = request.form
-        username = data.get('username')
-        password = data.get('password')
-        email = data.get('email')
-        print("username:", username, "password", password, "email", email)
-        if not username or not password or not email:
-            flash("Missing username, password or email")
-            return render_template('register.html')
-        existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
-        if existing_user:
-            flash("User already exists")
-            return render_template('register.html')
-            # return jsonify({"message": "User already exists"}), 400
-        temp_user = {
-            'username': username,
-            'password': bcrypt.generate_password_hash(password).decode('utf-8'),
-            'email': email
-        }
-        save_temp_user(temp_user)
+        if request.is_json:
+            data = request.get_json()
+            form = RegistrationForm(data=data)
+        else:
+            form = RegistrationForm()
+        
+        if form.validate_on_submit():
+            username = form.username.data
+            password = form.password.data
+            email = form.email.data
+            print("username:", username, "password", password, "email:", email)
+            if not username or not password or not email:
+                if request.is_json:
+                    return jsonify({"message": "Missing username, password, or email"}), 400
+                else:
+                    flash("Missing username, password, or email")
+                    return render_template('register.html', form=form)
+            
+            existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
+            if existing_user:
+                if request.is_json:
+                    return jsonify({"message": "User with that username or email already exists"}), 400
+                else:
+                    flash("User with that username or email already exists")
+                    return render_template('register.html', form=form)
 
-        token = generate_confirmation_token(email)
-        confirm_url = url_for('auth.confirm_email', token=token, _external=True)
-        html = render_template('activate.html', confirm_url=confirm_url)
-        subject = "Please confirm your email"
-        send_email(email, subject, html)
+            temp_user = {
+                'username': username,
+                'password': bcrypt.generate_password_hash(password).decode('utf-8'),
+                'email': email
+            }
+            save_temp_user(temp_user)
+
+            token = generate_confirmation_token(email)
+            confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+            html = render_template('activate.html', confirm_url=confirm_url)
+            subject = "Please confirm your email"
+            send_email(email, subject, html)
+
+            if request.is_json:
+                return jsonify({"message": "A confirmation email has been sent via email."}), 201
+            else:
+                flash('A confirmation email has been sent via email.', 'success')
+                return redirect(url_for('auth.login'))
         
-        ### 모바일 register 는 막음
-        #if request.headers.get('Accept') == 'application/json':
-        #    return jsonify({"message": "Register successful"}), 201
-        #flash("User registered successfully")
-        
-        flash('A confirmation email has been sent via email.', 'success')
-        return redirect(url_for('auth.login'))
-        
-    else:
-        return render_template('register.html')
+        if request.is_json:
+            return jsonify({"errors": form.errors}), 400
+
+    return render_template('register.html', form=form)
+
     
 @auth_bp.route('/confirm/<token>')
 def confirm_email(token):
