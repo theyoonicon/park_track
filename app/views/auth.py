@@ -147,7 +147,7 @@ def get_jwt_identity_from_request():
     except Exception as e:
         return None
 
-@auth_bp.route('/logout')
+@auth_bp.route('/logout', methods=['GET'])
 def logout():
     if request.headers.get('Accept') == 'application/json':
         print("come")
