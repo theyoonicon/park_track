@@ -190,7 +190,7 @@ def update_symptom(id):
                 else:
                     data = request.form.to_dict()
                     data_method = data['_method']
-                print(data_method)
+                print("data_method", data_method)
                 if '_method' in data and data['_method'].upper() == 'PUT':
                     symptom.event = data.get('event', symptom.event)
                     symptom.type = data.get('type', symptom.type)
