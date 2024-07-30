@@ -182,11 +182,13 @@ def update_symptom(id):
             symptom = Symptom.query.get(id)
             print(symptom)
             if symptom and symptom.username == user.username:
-                data = request.form.to_dict()
-                print(data['_method'])
                 data_method = ""
                 if request.headers.get('Accept') == 'application/json':
                     data_method = request.body.get('_method')
+                    print("hi")
+                else:
+                    data = request.form.to_dict()
+                    data_method = data['_method']
                 print(data_method)
                 if '_method' in data and data['_method'].upper() == 'PUT':
                     symptom.event = data.get('event', symptom.event)
