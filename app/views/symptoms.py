@@ -169,9 +169,10 @@ def symptom_check():
 def update_symptom(id):
     try:
         if request.headers.get('Accept') == 'application/json':
-            user_id = get_jwt_identity_from_request()
+            user_id=get_jwt_identity_from_request()
         else:
             user_id = session.get('user_id')
+        print(user_id)
         if not user_id:
             return jsonify({"message": "Unauthorized access"}), 401
         user = User.query.get(user_id)
