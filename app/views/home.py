@@ -1,9 +1,13 @@
-from flask import Blueprint, render_template, jsonify, session
+from flask import Blueprint, render_template, jsonify, session, redirect, url_for
 from flask_jwt_extended import jwt_required
 from ..models import User
 from .auth import get_jwt_identity_from_request
 
 home_bp = Blueprint('home', __name__)
+
+@home_bp.route('/')
+def index():
+    return redirect(url_for('auth.login'))
 
 @home_bp.route('/home', methods=['GET'])
 @jwt_required(optional=True)
