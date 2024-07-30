@@ -6,7 +6,7 @@ from ..models import User
 class RegistrationForm(FlaskForm):
     username = StringField('사용자 이름', 
                            validators=[DataRequired(message="사용자 이름을 입력해 주세요"), 
-                                       Length(min=6, max=15, message="사용자 이름은 6자에서 15자 사이여야 합니다"), 
+                                       Length(min=4, max=14, message="사용자 이름은 4자에서 14자 사이여야 합니다"), 
                                        Regexp('^[A-Za-z0-9]*$', 0, 
                                               '사용자 이름은 영문자와 숫자만 포함할 수 있습니다')])
     email = StringField('이메일', 
