@@ -3,14 +3,27 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, get_jti, get_jwt, jwt_required
+from flask_mail import Mail
+from flask_migrate import Migrate
+from sqlalchemy import MetaData
 import os
 from flask_login import current_user, LoginManager
 
-db = SQLAlchemy()
+# Naming convention for SQLAlchemy constraints
+naming_convention = {
+    "ix": 'ix_%(column_0_label)s',
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(column_0_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s"
+}
+
+db = SQLAlchemy(metadata=MetaData(naming_convention=naming_convention))
 ma = Marshmallow()
 bcrypt = Bcrypt()
 jwt = JWTManager()
-
+mail = Mail()
+migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
@@ -27,6 +40,8 @@ def create_app():
     ma.init_app(app)
     bcrypt.init_app(app)
     jwt.init_app(app)
+    mail.init_app(app)
+    migrate.init_app(app, db)
     
     from .models import User  # User 모델을 임포트
     

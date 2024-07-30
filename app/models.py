@@ -1,15 +1,20 @@
 from . import db, ma
 from flask_login import UserMixin
+from datetime import datetime
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
+    email = db.Column(db.String(100), unique=True, nullable=True)
+    confirmed = db.Column(db.Boolean, default=False)
+    confirmed_on = db.Column(db.DateTime, nullable=True)
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, email):
         self.username = username
         self.password = password
-        
+        self.email = email
+
     @property
     def is_active(self):
         # Here you can add conditions for inactive users if needed

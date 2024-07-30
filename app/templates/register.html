@@ -6,20 +6,15 @@
     {% endif %}
 {% endwith %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/css/uikit.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit-icons.min.js"></script>
-</head>
-<body class="uk-flex uk-flex-center uk-flex-middle uk-background-muted uk-height-viewport">
-    <div class="uk-card uk-card-default uk-card-body uk-width-large">
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="uk-container">
+    <div class="uk-card uk-card-default uk-card-body uk-width-large uk-align-center">
         <h2 class="uk-card-title">Register</h2>
-        <form method="post" action="/register">
+        <form method="post" action="{{ url_for('auth.register') }}">
             <div class="uk-margin">
                 <label for="username" class="uk-form-label">Username:</label>
                 <input type="text" id="username" name="username" class="uk-input" required>
@@ -28,9 +23,13 @@
                 <label for="password" class="uk-form-label">Password:</label>
                 <input type="password" id="password" name="password" class="uk-input" required>
             </div>
+            <div class="uk-margin">
+                <label for="email" class="uk-form-label">Email:</label>
+                <input type="email" id="email" name="email" class="uk-input" required>
+            </div>
             <button type="submit" class="uk-button uk-button-primary uk-width-1-1">Register</button>
         </form>
         <a href="{{ url_for('auth.login') }}" class="uk-link-muted uk-display-block uk-text-center uk-margin-top">Login</a>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

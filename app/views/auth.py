@@ -3,6 +3,8 @@ from ..models import User
 from .. import db, bcrypt
 from flask_jwt_extended import JWTManager, set_access_cookies, unset_jwt_cookies, create_access_token, decode_token, jwt_required, get_jwt_identity, get_jwt
 import functools
+from datetime import datetime
+from .email import generate_confirmation_token, send_email, confirm_token
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -14,24 +16,55 @@ def register():
             data = request.form
         username = data.get('username')
         password = data.get('password')
-        print("username:", username, "password", password)
-        if not username or not password:
-            flash("Missing username or password")
+        email = data.get('email')
+        print("username:", username, "password", password, "email", email)
+        if not username or not password or not email:
+            flash("Missing username, password or email")
             return render_template('register.html')
-        existing_user = User.query.filter_by(username=username).first()
+        existing_user = User.query.filter((User.username == username) | (User.email == email)).first()
         if existing_user:
             flash("User already exists")
             return render_template('register.html')
             # return jsonify({"message": "User already exists"}), 400
-        new_user = User(username=username, password=bcrypt.generate_password_hash(password).decode('utf-8'))
+        new_user = User(username=username, password=bcrypt.generate_password_hash(password).decode('utf-8'), email=email)
         db.session.add(new_user)
         db.session.commit()
-        if request.headers.get('Accept') == 'application/json':
-            return jsonify({"message": "Register successful"}), 201
-        flash("User registered successfully")
+        
+        token = generate_confirmation_token(email)
+        confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+        html = render_template('activate.html', confirm_url=confirm_url)
+        subject = "Please confirm your email"
+        send_email(email, subject, html)
+        
+        ### 모바일 register 는 막음
+        #if request.headers.get('Accept') == 'application/json':
+        #    return jsonify({"message": "Register successful"}), 201
+        #flash("User registered successfully")
+        
+        flash('A confirmation email has been sent via email.', 'success')
         return redirect(url_for('auth.login'))
+        
     else:
         return render_template('register.html')
+    
+@auth_bp.route('/confirm/<token>')
+def confirm_email(token):
+    try:
+        email = confirm_token(token)
+    except:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+        return redirect(url_for('auth.login'))
+
+    user = User.query.filter_by(email=email).first_or_404()
+    if user.confirmed:
+        flash('Account already confirmed. Please login.', 'success')
+    else:
+        user.confirmed = True
+        user.confirmed_on = datetime.utcnow()
+        db.session.add(user)
+        db.session.commit()
+        flash('You have confirmed your account. Thanks!', 'success')
+    return redirect(url_for('auth.login'))
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
