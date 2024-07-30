@@ -16,26 +16,23 @@
         }
     </style>
 </head>
-<body class="uk-background-muted uk-height-viewport uk-flex uk-flex-stretch">
+<body class="uk-background-muted uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
     <!-- Fixed Left Navigation Bar -->
-    <!-- Left Navigation Bar -->
     <div id="offcanvas-nav" uk-offcanvas="mode: reveal; overlay: true">
         <div class="uk-offcanvas-bar">
-
             <ul class="uk-nav uk-nav-default">
                 <li class="uk-nav-header">Parkinson Tracker</li>
                 <li><a href="{{ url_for('home.home') }}">Home</a></li>
-                <li><a href="{{ url_for('symptoms.symptom_check') }}">Symtpom Check</a></li>
+                <li><a href="{{ url_for('symptoms.symptom_check') }}">Symptom Check</a></li>
                 <li><a href="{{ url_for('symptoms.get_or_add_symptoms') }}">Symptom List</a></li>
                 <li class="uk-nav-divider"></li>
                 <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
             </ul>
-
         </div>
     </div>
 
     <!-- Main Content -->
-    <div class="uk-container uk-margin-top uk-margin-large-bottom">
+    <div class="uk-container uk-margin-top uk-margin-large-bottom" style="max-width: 800px;">
         <button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom" type="button" uk-toggle="target: #offcanvas-nav">Open Menu</button>
         {% block content %}{% endblock %}
     </div>
