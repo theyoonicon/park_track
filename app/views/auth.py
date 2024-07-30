@@ -5,8 +5,26 @@ from flask_jwt_extended import JWTManager, set_access_cookies, unset_jwt_cookies
 import functools
 from datetime import datetime
 from .email import generate_confirmation_token, send_email, confirm_token
+import os, pickle
 
 auth_bp = Blueprint('auth', __name__)
+
+def save_temp_user(data):
+    with open(f'temp_user_{data["email"]}.pkl', 'wb') as f:
+        pickle.dump(data, f)
+
+def load_temp_user(email):
+    try:
+        with open(f'temp_user_{email}.pkl', 'rb') as f:
+            return pickle.load(f)
+    except FileNotFoundError:
+        return None
+
+def delete_temp_user(email):
+    try:
+        os.remove(f'temp_user_{email}.pkl')
+    except FileNotFoundError:
+        pass
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -26,10 +44,13 @@ def register():
             flash("User already exists")
             return render_template('register.html')
             # return jsonify({"message": "User already exists"}), 400
-        new_user = User(username=username, password=bcrypt.generate_password_hash(password).decode('utf-8'), email=email)
-        db.session.add(new_user)
-        db.session.commit()
-        
+        temp_user = {
+            'username': username,
+            'password': bcrypt.generate_password_hash(password).decode('utf-8'),
+            'email': email
+        }
+        save_temp_user(temp_user)
+
         token = generate_confirmation_token(email)
         confirm_url = url_for('auth.confirm_email', token=token, _external=True)
         html = render_template('activate.html', confirm_url=confirm_url)
@@ -55,14 +76,25 @@ def confirm_email(token):
         flash('The confirmation link is invalid or has expired.', 'danger')
         return redirect(url_for('auth.login'))
 
-    user = User.query.filter_by(email=email).first_or_404()
-    if user.confirmed:
+    temp_user = load_temp_user(email)
+    if not temp_user:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+        return redirect(url_for('auth.register'))
+
+    user = User.query.filter_by(email=email).first()
+    if user:
         flash('Account already confirmed. Please login.', 'success')
     else:
-        user.confirmed = True
-        user.confirmed_on = datetime.utcnow()
-        db.session.add(user)
+        new_user = User(
+            username=temp_user['username'],
+            password=temp_user['password'],
+            email=temp_user['email'],
+        )
+        new_user.confirmed=True
+        new_user.confirmed_on=datetime.utcnow()
+        db.session.add(new_user)
         db.session.commit()
+        delete_temp_user(email)
         flash('You have confirmed your account. Thanks!', 'success')
     return redirect(url_for('auth.login'))
 
