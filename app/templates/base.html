@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit-icons.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
     <style>
         @media (max-width: 600px) {
             .uk-container {
@@ -22,7 +23,7 @@
         }
     </style>
 </head>
-<body class="uk-background-muted uk-height-viewport uk-flex uk-flex-center uk-flex-middle">
+<body class="uk-background-muted uk-height-viewport uk-flex uk-flex-stretch">
     <!-- Fixed Left Navigation Bar -->
     <div id="offcanvas-nav" uk-offcanvas="mode: reveal; overlay: true">
         <div class="uk-offcanvas-bar">
@@ -43,8 +44,8 @@
     </button>
 
     <!-- Main Content -->
-    <div class="uk-container uk-margin-top uk-margin-large-bottom">
-        {% block content %}{% endblock %}
+    <div class="uk-container uk-margin-large-top uk-margin-large-bottom">
+    {% block content %}{% endblock %}
     </div>
 </body>
 </html>
