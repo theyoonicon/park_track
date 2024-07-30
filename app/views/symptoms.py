@@ -185,7 +185,7 @@ def update_symptom(id):
                 print("???")
                 data_method = ""
                 if request.headers.get('Accept') == 'application/json':
-                    data_method = request.form.get('_method')
+                    data_method = request.get_json()['_method']
                     print("hi")
                 else:
                     data = request.form.to_dict()
