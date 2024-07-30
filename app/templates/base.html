@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/css/uikit.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit-icons.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-
     <style>
         @media (max-width: 600px) {
             .uk-container {
@@ -20,10 +19,14 @@
             position: fixed;
             top: 10px;
             left: 10px;
+            z-index: 1000; /* Ensure the button is above other content */
+        }
+        .uk-container {
+            padding-top: 50px; /* Add padding to avoid overlap with fixed menu button */
         }
     </style>
 </head>
-<body class="uk-background-muted uk-height-viewport uk-flex uk-flex-stretch">
+<body class="uk-background-muted uk-height-viewport">
     <!-- Fixed Left Navigation Bar -->
     <div id="offcanvas-nav" uk-offcanvas="mode: reveal; overlay: true">
         <div class="uk-offcanvas-bar">
@@ -39,15 +42,13 @@
     </div>
 
     <!-- Menu Button -->
-    <div class="uk-margin-bottom">
-    <button class="uk-button uk-button-default uk-icon-button menu-button uk-margin-bottom" type="button" uk-toggle="target: #offcanvas-nav">
+    <button class="uk-button uk-button-default uk-icon-button menu-button" type="button" uk-toggle="target: #offcanvas-nav">
         <i class="fas fa-bars"></i>
     </button>
-    </div>
 
     <!-- Main Content -->
-    <div class="uk-container uk-margin-large-top uk-margin-large-bottom">
-    {% block content %}{% endblock %}
+    <div class="uk-container uk-margin-large-bottom" style="max-width: 800px;">
+        {% block content %}{% endblock %}
     </div>
 </body>
 </html>
