@@ -20,8 +20,8 @@
 
 <body class="uk-flex uk-flex-center uk-flex-middle uk-background-muted uk-height-viewport">
 <div class="uk-container">
-    <div class="uk-card uk-card-default uk-card-body uk-width-large uk-align-center">
-        <h2 class="uk-card-title">Register</h2>
+    <div class="uk-card uk-card-default uk-card-body uk-width-1-1@s uk-width-1-2@m uk-align-center">
+        <h2 class="uk-card-title">회원가입</h2>
         <form method="post" action="{{ url_for('auth.register') }}">
             {{ form.hidden_tag() }}
             <div class="uk-margin">
@@ -40,11 +40,8 @@
             </div>
             <div class="uk-margin">
                 {{ form.password.label(class="uk-form-label") }}
-                <div>
-                <small class="uk-text-muted">최소 하나의 소문자, 숫자, 특수문자를 포함(8자 이상)</small>
-                </div>
                 {{ form.password(class="uk-input") }}
-
+                <small class="uk-text-muted">비밀번호는 최소 8자 이상이어야 하며, 최소 하나의 소문자, 대문자, 숫자, 특수문자를 포함해야 합니다.</small>
                 {% if form.password.errors %}
                     <div class="uk-text-danger">{{ form.password.errors[0] }}</div>
                 {% endif %}
@@ -56,9 +53,9 @@
                     <div class="uk-text-danger">{{ form.confirm_password.errors[0] }}</div>
                 {% endif %}
             </div>
-            <button type="submit" class="uk-button uk-button-primary uk-width-1-1">Register</button>
+            <button type="submit" class="uk-button uk-button-primary uk-width-1-1">회원가입</button>
         </form>
-        <a href="{{ url_for('auth.login') }}" class="uk-link-muted uk-display-block uk-text-center uk-margin-top">Login</a>
+        <a href="{{ url_for('auth.login') }}" class="uk-link-muted uk-display-block uk-text-center uk-margin-top">로그인</a>
     </div>
 </div>
 </body>

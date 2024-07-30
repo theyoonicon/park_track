@@ -24,7 +24,7 @@
         {% endfor %}
     </ul>
     <h2 class="uk-heading-line uk-margin-top"><span>Graph</span></h2>
-    <div class="uk-overflow-auto">
+    <div style="max-width: 100%; overflow-x: auto;">
         {% if graph_html %}
             {{ graph_html | safe }}
         {% else %}
