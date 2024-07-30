@@ -182,6 +182,7 @@ def update_symptom(id):
             symptom = Symptom.query.get(id)
             print(symptom)
             if symptom and symptom.username == user.username:
+                print("???")
                 data_method = ""
                 if request.headers.get('Accept') == 'application/json':
                     data_method = request.body.get('_method')
