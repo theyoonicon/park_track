@@ -9,6 +9,7 @@ from sqlalchemy import MetaData
 import os
 from flask_login import current_user, LoginManager
 
+
 # Naming convention for SQLAlchemy constraints
 naming_convention = {
     "ix": 'ix_%(column_0_label)s',
@@ -24,6 +25,7 @@ bcrypt = Bcrypt()
 jwt = JWTManager()
 mail = Mail()
 migrate = Migrate()
+
 
 def create_app():
     app = Flask(__name__)

@@ -1,28 +1,54 @@
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <script>
+            alert("{{messages[-1]}}")
+        </script>
+    {% endif %}
+{% endwith %}
+
+
 {% extends "base.html" %}
 
-{% block title %}Title{% endblock %}
+{% block title %}Symptom Check{% endblock %}
 
 {% block content %}
-    <div class="uk-card uk-card-default uk-card-body uk-width-auto" >
-        <h2 class="uk-card-title">Symptom Check</h2>
-        <form method="post" action="{{ url_for('symptoms.symptom_check') }}">
-            <div class="uk-margin">
-                <label for="event" class="uk-form-label">Event</label>
-                <select id="event" name="event" class="uk-select" required>
+<div class="uk-container">
+    <h2 class="uk-heading-line"><span>Symptom Check</span></h2>
+    <form method="post" action="{{ url_for('symptoms.symptom_check') }}" class="uk-form-stacked">
+        <div class="uk-margin">
+            <label for="type" class="uk-form-label">Type:</label>
+            <div class="uk-form-controls">
+                <select id="type" name="type" class="uk-select" onchange="this.form.submit()">
+                    <option value="">Select Type</option>
+                    <option value="symptom" {% if type == 'symptom' %}selected{% endif %}>Symptom</option>
+                    <option value="medication" {% if type == 'medication' %}selected{% endif %}>Medication</option>
+                </select>
+            </div>
+        </div>
+        {% if type == 'symptom' %}
+        <div class="uk-margin">
+            <label for="event" class="uk-form-label">Symptom:</label>
+            <div class="uk-form-controls">
+                <select id="event" name="event" class="uk-select">
                     <option value="좋아요">좋아요</option>
                     <option value="보통이에요">보통이에요</option>
                     <option value="나빠요">나빠요</option>
+                </select>
+            </div>
+        </div>
+        {% endif %}
+        {% if type == 'medication' %}
+        <div class="uk-margin">
+            <label for="event" class="uk-form-label">Medication:</label>
+            <div class="uk-form-controls">
+                <select id="event" name="event" class="uk-select">
                     <option value="약 섭취">약 섭취</option>
+                    <option value="약 섭취2">약 섭취2</option>
                 </select>
             </div>
-            <div class="uk-margin">
-                <label for="type" class="uk-form-label">Type</label>
-                <select id="type" name="type" class="uk-select" required>
-                    <option value="symptom">Symptom</option>
-                    <option value="medication">Medication</option>
-                </select>
-            </div>
-            <button type="submit" class="uk-button uk-button-primary uk-width-1-1">Submit</button>
-        </form>
-    </div>
+        </div>
+        {% endif %}
+        <button type="submit" class="uk-button uk-button-primary">Submit</button>
+    </form>
+</div>
 {% endblock %}

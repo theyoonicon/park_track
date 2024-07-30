@@ -32,7 +32,7 @@ class Symptom(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), db.ForeignKey('user.username'))
     time = db.Column(db.String(100))
-    event = db.Column(db.String(100))
+    event = db.Column(db.String(100), nullable=True)
     type = db.Column(db.String(100))
 
     def __init__(self, username, time, event, type):
