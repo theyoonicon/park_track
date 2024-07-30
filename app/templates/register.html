@@ -7,11 +7,18 @@
 {% endwith %}
 
 
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/css/uikit.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.0/dist/js/uikit-icons.min.js"></script>
+</head>
 
-{% block title %}Register{% endblock %}
-
-{% block content %}
+<body class="uk-flex uk-flex-center uk-flex-middle uk-background-muted uk-height-viewport">
 <div class="uk-container">
     <div class="uk-card uk-card-default uk-card-body uk-width-large uk-align-center">
         <h2 class="uk-card-title">Register</h2>
@@ -33,7 +40,11 @@
             </div>
             <div class="uk-margin">
                 {{ form.password.label(class="uk-form-label") }}
+                <div>
+                <small class="uk-text-muted">최소 하나의 소문자, 숫자, 특수문자를 포함(8자 이상)</small>
+                </div>
                 {{ form.password(class="uk-input") }}
+
                 {% if form.password.errors %}
                     <div class="uk-text-danger">{{ form.password.errors[0] }}</div>
                 {% endif %}
@@ -50,4 +61,4 @@
         <a href="{{ url_for('auth.login') }}" class="uk-link-muted uk-display-block uk-text-center uk-margin-top">Login</a>
     </div>
 </div>
-{% endblock %}
+</body>
