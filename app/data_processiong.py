@@ -72,7 +72,7 @@ def create_graph(df, date_filter):
     else:
         df['time'] = pd.to_datetime(df['time'])
         df = df.sort_values('time')
-        events = {"좋아요": 3, "보통이에요": 2, "나빠요": 1}
+        events = {"좋아요": 10, "보통이에요": 5, "나빠요": 0}
         df['event_num'] = df['event'].map(events)
         
         # Separate symptom and medication events
@@ -110,7 +110,7 @@ def create_graph(df, date_filter):
         
         # Plot medication events
         for i, row in df_medication.iterrows():
-            plt.annotate('약 섭취', xy=(row['time'], 2),
+            plt.annotate('약 섭취', xy=(row['time'], 5),
                          xytext=(row['time'], 2.5),
                          arrowprops=dict(facecolor='red', shrink=0.05))
 
@@ -118,7 +118,7 @@ def create_graph(df, date_filter):
         plt.gca().xaxis.set_major_locator(mdates.HourLocator(interval=1))
         plt.xticks(rotation=45)
         
-        plt.yticks([1, 2, 3], ["나빠요", "보통이에요", "좋아요"])
+        plt.yticks([0, 5, 10], ["나빠요", "보통이에요", "좋아요"])
         plt.xlabel('Time')
         plt.ylabel('Event')
         plt.title('Symptom and Medication Over Time')

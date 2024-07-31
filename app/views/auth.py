@@ -158,3 +158,10 @@ def logout():
     response = redirect(url_for('auth.login'))
     unset_jwt_cookies(response)
     return response
+
+# New endpoint to validate token
+@auth_bp.route('/validate_token', methods=['GET'])
+@jwt_required()
+def validate_token():
+    current_user = get_jwt_identity()
+    return jsonify({"message": "Token is valid", "user_id": current_user}), 200
